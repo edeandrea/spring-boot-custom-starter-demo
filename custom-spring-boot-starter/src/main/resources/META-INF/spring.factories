@@ -1,0 +1,10 @@
+# Application context initializers
+org.springframework.context.ApplicationContextInitializer=\
+com.mycompany.myframework.autoconfigure.actuator.ActuatorsApplicationContextInitializer
+
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.mycompany.myframework.autoconfigure.properties.PropertiesAutoConfiguration,\
+com.mycompany.myframework.autoconfigure.service.fault.FaultBarrierAutoConfig,\
+com.mycompany.myframework.autoconfigure.service.security.servlet.ServiceServletSecurityAutoConfig,\
+com.mycompany.myframework.autoconfigure.service.security.reactive.ServiceReactiveSecurityAutoConfig

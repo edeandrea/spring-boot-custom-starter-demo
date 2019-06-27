@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: reactive-demo
+  jackson:
+    default-property-inclusion: non_empty
+    deserialization:
+      accept-empty-string-as-null-object: true
+      accept-empty-array-as-null-object: true
+      fail-on-null-for-primitives: true
+
+management:
+  info:
+    git:
+      mode: full
+
+server:
+  port: 8081
+
+logging:
+  level:
+    root: warn
+    com.github.edeandrea.reactivedemo: debug
+    com.mycompany.myframework: debug
+
+mycompany:
+  myframework:
+    config:
+      enable-actuators: true
+      security:
+        enabled: true

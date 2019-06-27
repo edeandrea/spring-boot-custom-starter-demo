@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: servlet-demo
+  jackson:
+    default-property-inclusion: non_empty
+    deserialization:
+      accept-empty-string-as-null-object: true
+      accept-empty-array-as-null-object: true
+      fail-on-null-for-primitives: true
+
+management:
+  info:
+    git:
+      mode: full
+
+logging:
+  level:
+    root: warn
+    com.github.edeandrea.servletdemo: debug
+    com.mycompany.myframework: debug
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api
+
+mycompany:
+  myframework:
+    config:
+      enable-actuators: true
+      security:
+        enabled: true

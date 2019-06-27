@@ -1,0 +1,45 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.6.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.mycompany.myframework'
+version = '1.0'
+sourceCompatibility = '1.8'
+
+bootJar.enabled = false
+jar.enabled = true
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.hibernate.validator:hibernate-validator'
+	implementation 'org.apache.commons:commons-lang3:3.9'
+	implementation 'org.apache.commons:commons-collections4:4.3'
+	implementation 'io.swagger:swagger-annotations:1.5.22'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+	compileOnly 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.springframework.boot:spring-boot-starter-webflux'
+	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+	compileOnly 'org.springframework.boot:spring-boot-starter-security'
+	compileOnly 'io.springfox:springfox-swagger2:2.9.2'
+	compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+	compileOnly 'javax.servlet:javax.servlet-api'
+	testCompileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params'
+	testImplementation 'io.projectreactor:reactor-test'
+	testRuntime 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+	useJUnitPlatform()
+}
