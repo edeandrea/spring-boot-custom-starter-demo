@@ -40,7 +40,6 @@ public class InMemoryPeopleService implements PeopleService {
 	public Mono<Void> deletePerson(Long personId) {
 		LOGGER.info("Inside {}.deletePerson({})", getClass().getName(), personId);
 		return Mono.fromRunnable(() -> this.people.remove(personId));
-//		return Mono.justOrEmpty(this.people.remove(personId));
 	}
 
 	@PostConstruct
