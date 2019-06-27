@@ -15,6 +15,7 @@ This project represents a library packaged as a Spring Boot Starter. It contains
        }
        ```
     - For all 4xx/5xx errors, expose a response header called `X-FAULT-ID` containing a GUID which can be correlated by upstream infrastructure
+        - My implementation here doesn't completely implement this for 401/403 errors, but it certainly could if I spent a little more time on it
     - Give application developers a way to trigger a [fault](https://www.oracle.com/technetwork/articles/entarch/effective-exceptions2-097044.html)
 - Expose a set of configuration properties (_values shown in snippet below are defaults if not specified by the application_)
     ```yaml
