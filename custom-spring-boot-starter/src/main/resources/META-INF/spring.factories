@@ -1,3 +1,7 @@
+# Environment post processors
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.mycompany.myframework.autoconfigure.service.ApplicationDefaultsEnvironmentPostProcessor
+
 # Application context initializers
 org.springframework.context.ApplicationContextInitializer=\
 com.mycompany.myframework.autoconfigure.actuator.ActuatorsApplicationContextInitializer

@@ -1,12 +1,6 @@
 spring:
   application:
     name: servlet-demo
-  jackson:
-    default-property-inclusion: non_empty
-    deserialization:
-      accept-empty-string-as-null-object: true
-      accept-empty-array-as-null-object: true
-      fail-on-null-for-primitives: true
 
 management:
   info:
