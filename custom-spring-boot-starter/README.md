@@ -36,3 +36,8 @@ This project represents a library packaged as a Spring Boot Starter. It contains
             - The application will be set up in a way assuming that something like Siteminder is set up in front of the application, providing perimeter authentication (i.e. pre-authentication scenarios)
                 - Authentication credentials are assumed to be passed to the application in the request header `SM_USER`
                 - The application is configured such that there is only a single user allowed to access the application - **user1**
+- For a servlet-based application, if the [SpringFox](http://springfox.github.io/springfox/docs/current/) library is in use **AND** security is turned on according to the above documentation on security, then configure CSRF within Swagger UI
+    - There's an outstanding issue within SpringFox where if CSRF is enabled the Swagger UI does not carry the CSRF token provided when the UI is loaded into all the "Try It" examples shown
+    - The framework solves this by intercepting the "Try It" requests and dynamically injecting the CSRF token into the request so that it is successful
+- For a reactive-based application, there is an [oustanding issue in Spring Security](https://github.com/spring-projects/spring-security/issues/5766) where the CSRF token is not automatically subscribed to
+    - The framework solves this by automatically subscribing to the CSRF token if one was generated as part of the request (see [ServerCsrfTokenSubscribingResponseModifier.java](src/main/java/com/mycompany/myframework/service/security/server/ServerCsrfTokenSubscribingResponseModifier.java))
