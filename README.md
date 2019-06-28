@@ -36,7 +36,7 @@ Both applications can be run at the same time. They are configured to run on dif
 - [Servlet Demo](servlet-demo)
     - `./gradlew :servlet-demo:bootRun`
     - This will run the application at http://localhost:8080
-        - **Actuators**: http://localhost/actuator
+        - **Actuators**: http://localhost:8080/actuator
 - [Reactive Demo](reactive-demo)
     - `./gradlew :reactive-demo:bootRun`
     - This will run the application at http://localhost:8081
