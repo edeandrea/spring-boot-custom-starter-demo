@@ -31,7 +31,7 @@ configurations.all {
 The fact that the [custom library](custom-spring-boot-starter) is a child project in the same source tree is irrelevant - its merely for ease of use/distribution so the library didn't have to be published out to some Maven repo in order for it to be consumed.
 
 ## Running the applications
-Both applications can be run at the same time. They are configured to run on different ports.
+Both applications can be run at the same time. They are configured to run on different ports. See the documentation on each application's README for details on curl commands that can be run to demonstrate the functionality.
 
 - [Servlet Demo](servlet-demo)
     - `./gradlew :servlet-demo:bootRun`
