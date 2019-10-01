@@ -1,4 +1,4 @@
-This project represents a library packaged as a Spring Boot Starter. It containers the following functionality, implemented for **BOTH** the servlet & reactive stacks. All of the auto-configuration is driven from the [TracingAutoConfiguration](src/main/java/com/mycompany/myframework/autoconfigure/tracing/TracingAutoConfiguration.java) class.
+This project represents a library packaged as a Spring Boot Starter. It contains the following functionality, implemented for **BOTH** the servlet & reactive stacks. All of the auto-configuration is driven from the [TracingAutoConfiguration](src/main/java/com/mycompany/myframework/autoconfigure/tracing/TracingAutoConfiguration.java) class.
 
 - Distributed Tracing via [Zipkin](https://zipkin.io) / [Spring Cloud Sleuth](https://cloud.spring.io/spring-cloud-sleuth/reference/html) / [P6Spy](https://github.com/p6spy/p6spy)
     - Offer a configuration property `mycompany.myframework.tracing.enable-response-headers`
