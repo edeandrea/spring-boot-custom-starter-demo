@@ -22,5 +22,6 @@ This project represents a library packaged as a Spring Boot Starter. It contains
         - Parent span id (if applicable)
         - Whether or not the span will be exported (spanExportable)
         - See [logback-spring.xml](src/main/resources/logback-spring.xml)
+            - This could have easily been re-written as code rather than having a Logback-specific configuration file.
     - By default no `spring.zipkin.baseUrl` property is specified. An application would have to configure this property manually to specify the Zipkin server location.
         - This would be trivial to do by default by the library if a known Zipkin location existed within an environment
