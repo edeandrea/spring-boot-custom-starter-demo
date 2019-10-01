@@ -1,0 +1,8 @@
+org.springframework.context.ApplicationListener=\
+com.mycompany.myframework.autoconfigure.tracing.TracingConfigurerApplicationListener
+
+org.springframework.context.ApplicationContextInitializer=\
+com.mycompany.myframework.autoconfigure.tracing.TracingApplicationContextInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.mycompany.myframework.autoconfigure.tracing.TracingAutoConfiguration

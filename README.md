@@ -16,15 +16,18 @@ To keep things simple, this repository is set up as a multi-module project. Note
     - The reactive version of the Spring Boot application
 - [Custom Spring Boot Starter](custom-spring-boot-starter)
     - The custom Spring Boot Starter library
+- [Custom Tracing Spring Boot Starter](custom-tracing-spring-boot-starter)
+    - A custom Spring Boot Starter library implementing distributed tracing via [Zipkin](https://zipkin.io) / [Spring Cloud Sleuth](https://cloud.spring.io/spring-cloud-sleuth/reference/html) / [P6Spy](https://github.com/p6spy/p6spy)
     
-Both the [Servlet Demo](servlet-demo) & the [Reactive Demo](reactive-demo) have the exact same behavior. They also have a binary dependency on the [custom Spring Boot Starter](custom-spring-boot-starter). There is no source-level dependency. This is achieved through Gradle's dependency substitution capabilities:
+Both the [Servlet Demo](servlet-demo) & the [Reactive Demo](reactive-demo) have the exact same behavior. They also have a binary dependency on the [custom Spring Boot Starter](custom-spring-boot-starter) & [custom tracing Spring Boot Starter](custom-tracing-spring-boot-starter). There is no source-level dependency. This is achieved through Gradle's dependency substitution capabilities:
 ```groovy
 configurations.all {
-	resolutionStrategy {
-		dependencySubstitution {
-			substitute module('com.mycompany.myframework:custom-spring-boot-starter:1.0') with project(':custom-spring-boot-starter')
-		}
-	}
+  resolutionStrategy {
+    dependencySubstitution {
+      substitute module('com.mycompany.myframework:custom-spring-boot-starter:1.0') with project(':custom-spring-boot-starter')
+      substitute module('com.mycompany.myframework:custom-tracing-spring-boot-starter:1.0') with project(':custom-tracing-spring-boot-starter')
+    }
+  }
 }
 ```
 

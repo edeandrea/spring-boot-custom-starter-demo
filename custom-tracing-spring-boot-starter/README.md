@@ -1,0 +1,26 @@
+This project represents a library packaged as a Spring Boot Starter. It containers the following functionality, implemented for **BOTH** the servlet & reactive stacks. All of the auto-configuration is driven from the [TracingAutoConfiguration](src/main/java/com/mycompany/myframework/autoconfigure/tracing/TracingAutoConfiguration.java) class.
+
+- Distributed Tracing via [Zipkin](https://zipkin.io) / [Spring Cloud Sleuth](https://cloud.spring.io/spring-cloud-sleuth/reference/html) / [P6Spy](https://github.com/p6spy/p6spy)
+    - Offer a configuration property `mycompany.myframework.tracing.enable-response-headers`
+        - If `true`, send back `traceId` & `spanExportable` headers to the caller with the trace id for the trace, as well as whether or not the span was exported to Zipkin
+        - For servlet implementation, see [TracingResponseBodyAdvice](src/main/java/com/mycompany/myframework/tracing/servlet/TracingResponseBodyAdvice.java)
+        - For reactive implementation, see [TracingResponseBodyResultHandler](src/main/java/com/mycompany/myframework/tracing/reactive/TracingResponseBodyResultHandler.java) 
+    - For each span, add a tag with the key `spring.profiles.active` and the value is a comma-separated list of the current active profiles, as reported by the `spring.profiles.active` property
+        - See [ActiveProfilesSpanAdjuster](src/main/java/com/mycompany/myframework/tracing/ActiveProfilesSpanAdjuster.java)
+    - Default the `spring.sleuth.trace-id128` property to `true` if it has not explicitly been set
+        - See [TracingApplicationContextInitializer](src/main/java/com/mycompany/myframework/autoconfigure/tracing/TracingApplicationContextInitializer.java))
+    - Default the `spring.sleuth.sampler.probability` property to `0.5` if it has not explicitly been set
+        - See [TracingApplicationContextInitializer](src/main/java/com/mycompany/myframework/autoconfigure/tracing/TracingApplicationContextInitializer.java))
+    - Configure the `p6spy.config.modulelist`system property to control which P6Spy modules are activated
+        - `com.p6spy.engine.spy.P6SpyFactory`
+        - `com.p6spy.engine.logging.P6LogFactory`
+        - `brave.p6spy.TracingP6Factory`
+        - See [TracingConfigurerApplicationListener](src/main/java/com/mycompany/myframework/autoconfigure/tracing/TracingConfigurerApplicationListener.java)
+    - Configure the default logging pattern to include the following information
+        - Trace id
+        - Span id
+        - Parent span id (if applicable)
+        - Whether or not the span will be exported (spanExportable)
+        - See [logback-spring.xml](src/main/resources/logback-spring.xml)
+    - By default no `spring.zipkin.baseUrl` property is specified. An application would have to configure this property manually to specify the Zipkin server location.
+        - This would be trivial to do by default by the library if a known Zipkin location existed within an environment

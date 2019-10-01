@@ -3,6 +3,13 @@ spring:
     name: servlet-demo
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
   info:
     git:
       mode: full
@@ -25,3 +32,5 @@ mycompany:
       enable-actuators: true
       security:
         enabled: true
+    tracing:
+      enable-response-headers: true
