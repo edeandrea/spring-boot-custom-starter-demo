@@ -3,9 +3,14 @@ package com.mycompany.myframework.autoconfigure.service.security.reactive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.reactive.EndpointRequest;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.reactive.WebFluxRegistrations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ReactiveAdapterRegistry;
@@ -27,11 +32,16 @@ import org.springframework.security.web.server.authentication.logout.HttpStatusR
 import org.springframework.security.web.server.authorization.HttpStatusServerAccessDeniedHandler;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.security.web.server.csrf.ServerCsrfTokenRepository;
+import org.springframework.web.cors.reactive.CorsProcessor;
 import org.springframework.web.reactive.accept.RequestedContentTypeResolver;
+import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 
 import com.mycompany.myframework.autoconfigure.service.security.ConditionalOnNoJwtTokenParsing;
+import com.mycompany.myframework.properties.config.MyFrameworkConfig;
 import com.mycompany.myframework.service.security.server.HeaderReactiveUserDetailsService;
 import com.mycompany.myframework.service.security.server.RequestHeaderServerAuthenticationConverter;
+import com.mycompany.myframework.service.security.server.ServerAllowedDomainsCorsConfigurationSource;
+import com.mycompany.myframework.service.security.server.ServerAllowedDomainsCorsProcessor;
 import com.mycompany.myframework.service.security.server.ServerCsrfTokenSubscribingResponseModifier;
 import com.mycompany.myframework.service.security.server.UserDetailsRepositoryReactiveAuthenticationManager;
 
@@ -56,6 +66,28 @@ public class ServiceReactiveSecurityAutoConfig {
 	@ConditionalOnMissingBean
 	public ReactiveUserDetailsService userDetailsService() {
 		return new HeaderReactiveUserDetailsService();
+	}
+
+	@Configuration
+	@ConditionalOnProperty(prefix = MyFrameworkConfig.PREFIX + ".security.cors", name = "allowed-domains")
+	@AutoConfigureBefore(WebFluxAutoConfiguration.class)
+	static class AllowedDomainsCorsConfiguration implements WebFluxRegistrations {
+		@Autowired
+		private CorsProcessor corsProcessor;
+
+		@Bean
+		public CorsProcessor acidAllowedDomainsCorsProcessor(MyFrameworkConfig frameworkConfig) {
+			ServiceReactiveSecurityAutoConfig.LOGGER.info("Injecting {} because {}.security.cors.allowed-domains is present", ServerAllowedDomainsCorsProcessor.class.getName(), MyFrameworkConfig.PREFIX);
+			return new ServerAllowedDomainsCorsProcessor(new ServerAllowedDomainsCorsConfigurationSource(frameworkConfig.getSecurity().getCors()));
+		}
+
+		@Override
+		public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
+			RequestMappingHandlerMapping requestMappingHandlerMapping = new RequestMappingHandlerMapping();
+			requestMappingHandlerMapping.setCorsProcessor(this.corsProcessor);
+
+			return requestMappingHandlerMapping;
+		}
 	}
 
 	@Configuration

@@ -5,6 +5,7 @@ This project represents a library packaged as a Spring Boot Starter. It contains
 - [Default Jackson Configuration](#default-jackson-configuration)
 - [SpringFox Configuration](#springfox-configuration)
 - [Reactive CSRF Token Subscription](#reactive-csrf-token-subscription)
+- [Customized CORS Configuration](#customized-cors-configuration)
 
 ## Fault Barrier Pattern
 Implement the [fault barrier](https://www.oracle.com/technetwork/articles/entarch/effective-exceptions2-097044.html) pattern
@@ -67,3 +68,20 @@ For a servlet-based application, if the [SpringFox](http://springfox.github.io/s
 ## Reactive CSRF Token Subscription
 For a reactive-based application, there is an [oustanding issue in Spring Security](https://github.com/spring-projects/spring-security/issues/5766) where the CSRF token is not automatically subscribed to
 - The framework solves this by automatically subscribing to the CSRF token if one was generated as part of the request (see [ServerCsrfTokenSubscribingResponseModifier.java](src/main/java/com/mycompany/myframework/service/security/server/ServerCsrfTokenSubscribingResponseModifier.java))
+
+## Customized CORS Configuration
+The framework allows for CORS configuration based on domains/subdomains. The [CORS specification](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) was written back in the web 1.0 days. In this day where one team may be building SPA apps and other independent teams building REST endpoints/applications, its near impossible to know who the consumers of every RESTful application are at deploy time. CORS configuration requires you to know the fully-qualified URL of your javascript app at deployment time, which isn't entirely possible today. The CORS spec doesn't allow wildcarding (like `*.subdomain.domain.com`), other than the simple `*`, which says to allow everything. This allows the app team to build an idiom where they can configure a set of domains/subdomains to allow. This works for both the servlet & reactive samples.
+
+It also allows the application team the ability to narrow it even further within their applications as they normally would (see the `MainApi` classes in each demo and look at the `@CrossOrigin` annotation). The applications are configured like
+
+```yaml
+mycompany:
+  myframework:
+    config:
+      security:
+        enabled: true
+        cors:
+          allowed-domains: subdomain.redhat.com
+```
+
+This will allow a CORS pre-flight request from any javascript application residing anywhere under the `subdomain.redhat.com` domain. See the [Servlet Demo](../servlet-demo) & [Reactive Demo](../reactive-demo) pages for specific request details.

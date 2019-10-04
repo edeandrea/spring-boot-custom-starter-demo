@@ -7,12 +7,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementServerProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -34,9 +36,12 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.mycompany.myframework.autoconfigure.service.security.ConditionalOnNoJwtTokenParsing;
 import com.mycompany.myframework.autoconfigure.service.swagger.servlet.SwaggerServletSecurityResponseModifier;
+import com.mycompany.myframework.properties.config.MyFrameworkConfig;
+import com.mycompany.myframework.service.security.servlet.AllowedDomainsCorsConfigurationSource;
 import com.mycompany.myframework.service.security.servlet.HeaderUserDetailsService;
 import com.mycompany.myframework.service.security.servlet.HeaderUserFilter;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
@@ -52,6 +57,13 @@ public class ServiceServletSecurityAutoConfig {
 	@ConditionalOnMissingBean
 	public CsrfTokenRepository csrfTokenRepository() {
 		return CookieCsrfTokenRepository.withHttpOnlyFalse();
+	}
+
+	@Bean("corsConfigurationSource")
+	@ConditionalOnProperty(prefix = MyFrameworkConfig.PREFIX + ".security.cors", name = "allowed-domains")
+	public AllowedDomainsCorsConfigurationSource corsConfigurationSource(@Qualifier("mvcHandlerMappingIntrospector") HandlerMappingIntrospector mvcHandlerMappingIntrospector, MyFrameworkConfig frameworkConfig) {
+		LOGGER.info("Injecting {} because {}.security.cors.allowed-domains is present", AllowedDomainsCorsConfigurationSource.class.getName(), MyFrameworkConfig.PREFIX);
+		return new AllowedDomainsCorsConfigurationSource(mvcHandlerMappingIntrospector, frameworkConfig.getSecurity().getCors());
 	}
 
 	@Bean

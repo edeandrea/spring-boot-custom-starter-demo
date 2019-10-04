@@ -290,3 +290,71 @@ $ curl "http://localhost:8080/people" -H "accept: application/json" -H "SM_USER:
   "numPeople": 3
 }
 ```
+
+### CORS Pre-flight request that passes
+```
+$ curl -X OPTIONS "http://localhost:8080/people" -H "Accept: application/json" -H "SM_USER: user1" -H "Origin: https://www.subdomain1.subdomain.redhat.com" -H "Access-Control-Request-Method: GET" -H "Access-Control-Request-Headers: SM_USER" -v
+
+*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 8080 (#0)
+> OPTIONS /people HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.54.0
+> Accept: application/Ason
+> SM_USER: user1
+> Origin: https://www.subdomain1.subdomain.redhat.com
+> Access-Control-Request-Method: GET
+> Access-Control-Request-Headers: SM_USER
+> 
+< HTTP/1.1 200 
+< Vary: Origin
+< Vary: Access-Control-Request-Method
+< Vary: Access-Control-Request-Headers
+< Access-Control-Allow-Origin: https://www.subdomain1.subdomain.redhat.com
+< Access-Control-Allow-Methods: GET
+< Access-Control-Allow-Headers: SM_USER
+< Access-Control-Max-Age: 1800
+< X-Content-Type-Options: nosniff
+< X-XSS-Protection: 1; mode=block
+< Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+< Pragma: no-cache
+< Expires: 0
+< X-Frame-Options: DENY
+< Content-Length: 0
+< Date: Fri, 04 Oct 2019 19:19:58 GMT
+< 
+* Connection #0 to host localhost left intact
+```
+
+### CORS Pre-flight request that fails
+```
+$ curl -X OPTIONS "http://localhost:8080/people" -H "Accept: application/json" -H "SM_USER: user1" -H "Origin: https://www.redhat.com" -H "Access-Control-Request-Method: GET" -H "Access-Control-Request-Headers: SM_USER" -v
+
+*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 8080 (#0)
+> OPTIONS /people HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.54.0
+> Accept: application/Ason
+> SM_USER: user1
+> Origin: https://www.redhat.com
+> Access-Control-Request-Method: GET
+> Access-Control-Request-Headers: SM_USER
+> 
+< HTTP/1.1 403 
+< Vary: Origin
+< Vary: Access-Control-Request-Method
+< Vary: Access-Control-Request-Headers
+< X-Content-Type-Options: nosniff
+< X-XSS-Protection: 1; mode=block
+< Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+< Pragma: no-cache
+< Expires: 0
+< X-Frame-Options: DENY
+< Content-Length: 20
+< Date: Fri, 04 Oct 2019 19:17:40 GMT
+< 
+* Connection #0 to host localhost left intact
+```

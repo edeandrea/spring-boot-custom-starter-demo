@@ -32,5 +32,7 @@ mycompany:
       enable-actuators: true
       security:
         enabled: true
+        cors:
+          allowed-domains: subdomain.redhat.com
     tracing:
       enable-response-headers: true
