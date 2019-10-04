@@ -85,3 +85,9 @@ mycompany:
 ```
 
 This will allow a CORS pre-flight request from any javascript application residing anywhere under the `subdomain.redhat.com` domain. See the [Servlet Demo](../servlet-demo) & [Reactive Demo](../reactive-demo) pages for specific request details.
+
+The main implementation of this class can be found from the following classes:
+- Servlet
+    - The `corsConfigurationSource` method in the [ServiceServletSecurityAutoConfig](src/main/java/com/mycompany/myframework/autoconfigure/service/security/servlet/ServiceServletSecurityAutoConfig.java) class
+- Reactive
+    - The `AllowedDomainsCorsConfiguration` inner class inside the [ServiceReactiveSecurityAutoConfig](src/main/java/com/mycompany/myframework/autoconfigure/service/security/reactive/ServiceReactiveSecurityAutoConfig.java) class
