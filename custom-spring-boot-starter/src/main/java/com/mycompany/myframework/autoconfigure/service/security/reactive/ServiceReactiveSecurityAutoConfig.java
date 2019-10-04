@@ -76,7 +76,7 @@ public class ServiceReactiveSecurityAutoConfig {
 		private CorsProcessor corsProcessor;
 
 		@Bean
-		public CorsProcessor acidAllowedDomainsCorsProcessor(MyFrameworkConfig frameworkConfig) {
+		public CorsProcessor allowedDomainsCorsProcessor(MyFrameworkConfig frameworkConfig) {
 			ServiceReactiveSecurityAutoConfig.LOGGER.info("Injecting {} because {}.security.cors.allowed-domains is present", ServerAllowedDomainsCorsProcessor.class.getName(), MyFrameworkConfig.PREFIX);
 			return new ServerAllowedDomainsCorsProcessor(new ServerAllowedDomainsCorsConfigurationSource(frameworkConfig.getSecurity().getCors()));
 		}
