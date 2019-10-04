@@ -89,5 +89,8 @@ This will allow a CORS pre-flight request from any javascript application residi
 The main implementation of this functionality can be found from the following classes:
 - Servlet
     - The `corsConfigurationSource` method in the [ServiceServletSecurityAutoConfig](src/main/java/com/mycompany/myframework/autoconfigure/service/security/servlet/ServiceServletSecurityAutoConfig.java) class
+    - The [AllowedDomainsCorsConfigurationSource](src/main/java/com/mycompany/myframework/service/security/servlet/AllowedDomainsCorsConfigurationSource.java) class
 - Reactive
     - The `AllowedDomainsCorsConfiguration` inner class inside the [ServiceReactiveSecurityAutoConfig](src/main/java/com/mycompany/myframework/autoconfigure/service/security/reactive/ServiceReactiveSecurityAutoConfig.java) class
+    - The [ServerAllowedDomainsCorsProcessor](src/main/java/com/mycompany/myframework/service/security/server/ServerAllowedDomainsCorsProcessor.java) class
+    - The [ServerAllowedDomainsCorsConfigurationSource](src/main/java/com/mycompany/myframework/service/security/server/ServerAllowedDomainsCorsConfigurationSource.java) class
